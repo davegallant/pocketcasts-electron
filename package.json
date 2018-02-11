@@ -1,0 +1,20 @@
+{
+  "name": "pocketcasts-electron",
+  "version": "0.1.0",
+  "main": "main.js",
+  "build": {
+    "appId": "com.pocketcasts.app",
+    "files": ["**/*", "build/icon.*"],
+    "mac": {
+      "category": "sound.pocketcasts"
+    }
+  },
+  "scripts": {
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+  	"electron": "^1.8.2", 
+    "electron-builder": "^19.56.0"
+  }
+}
