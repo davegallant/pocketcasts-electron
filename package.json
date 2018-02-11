@@ -13,9 +13,12 @@
     }
   },
   "scripts": {
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "release": "yarn compile && electron-builder"
+    "compile": "rimraf app/out && tsc",
+    "dist": "yarn compile && electron-builder",
+    "pack": "yarn compile && electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps",
+    "release": "yarn compile && electron-builder",
+    "start": "yarn install && yarn compile && electron ./app",
   },
   "devDependencies": {
     "electron": "^1.8.2",
