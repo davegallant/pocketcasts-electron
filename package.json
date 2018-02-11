@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "compile": "rimraf app/out && tsc",
+    "compile": "rimraf app/out",
     "dist": "yarn compile && electron-builder",
     "pack": "yarn compile && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
