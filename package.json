@@ -4,17 +4,25 @@
   "main": "main.js",
   "build": {
     "appId": "com.pocketcasts.app",
-    "files": ["**/*", "build/icon.*"],
+    "files": [
+      "**/*",
+      "build/icon.*"
+    ],
     "mac": {
       "category": "sound.pocketcasts"
     }
   },
   "scripts": {
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "release": "yarn compile && electron-builder"
   },
   "devDependencies": {
-  	"electron": "^1.8.2", 
+    "electron": "^1.8.2",
     "electron-builder": "^19.56.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davegallant/pocketcasts_electron.git"
   }
 }
