@@ -1,27 +1,58 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, globalShortcut} = require('electron')
+const config = require('./config');
 const path = require('path')
 const url = require('url')
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
+
+function registerGlobalMediaButtons() {
+  globalShortcut.register('MediaPlayPause', () => {
+    win.send('playPause');
+  });
+  globalShortcut.register('MediaPreviousTrack', () => {
+    win.send('skipBack');
+  });
+  globalShortcut.register('MediaNextTrack', () => {
+    win.send('skipForward');
+  });
+}
+
 function createWindow () {
+
+  const lastWindowState = config.get('lastWindowState');
+  // const mainURL = 'https://play.pocketcasts.com/users/sign_in';
+  const betaUrl = 'https://playbeta.pocketcasts.com/web/';
+  const titlePrefix = 'PocketCasts';
+
   // Create the browser window.
-  win = new BrowserWindow({width: 1024, 
-  						   height: 600})
+  win = new BrowserWindow({
+    // title: app.getName(),
+    x: lastWindowState.x,
+    y: lastWindowState.y,
+    // width: lastWindowState.width,
+    // height: lastWindowState.height,
+    icon: process.platform === 'linux' && path.join(__dirname, 'build/icon.png'),
+    minWidth: 800,
+    minHeight: 400,
+    alwaysOnTop: config.get('alwaysOnTop'),
+    titleBarStyle: process.platform === 'darwin' && Number(require('os').release().split('.')[0]) >= 17 ? null : 'hidden-inset',
+    autoHideMenuBar: true,
+    webPreferences: {
+      preload: path.join(__dirname, 'browser.js'),
+      nodeIntegration: false,
+      plugins: true
+    }
+  });
 
-  // and load the index.html of the app.
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+  win.loadURL(betaUrl)
 
-
-  win.webContents.on('did-start-loading', function () {
-        mainWindow.webContents.executeJavaScript("$(window).keypress(function(e){0===e.keyCode||32===e.keyCode?$('.play_pause_button')[0].click():117===e.keyCode?$('.skip_back_button')[0].click():118===e.keyCode?$('.play_pause_button')[0].click():119===e.keyCode&&$('.skip_forward_button')[0].click()});");
-    });
+  win.on('focus', () => {
+    registerGlobalMediaButtons();
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
