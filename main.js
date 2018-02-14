@@ -1,66 +1,57 @@
-const {app, BrowserWindow, globalShortcut} = require('electron')
+const {
+    app,
+    BrowserWindow,
+} = require('electron');
 const config = require('./config');
-const path = require('path')
-const url = require('url')
+const path = require('path');
+const url = require('url');
+const mediaKeys = require('./mediaKeys');
 
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
+function createWindow() {
 
-function registerGlobalMediaButtons() {
-  globalShortcut.register('MediaPlayPause', () => {
-    win.send('playPause');
-  });
-  globalShortcut.register('MediaPreviousTrack', () => {
-    win.send('skipBack');
-  });
-  globalShortcut.register('MediaNextTrack', () => {
-    win.send('skipForward');
-  });
-}
+    const lastWindowState = config.get('lastWindowState');
+    // const mainURL = 'https://play.pocketcasts.com/users/sign_in';
+    const betaUrl = 'https://playbeta.pocketcasts.com/web/';
+    const titlePrefix = 'PocketCasts';
 
-function createWindow () {
+    // Create the browser window.
+    win = new BrowserWindow({
+        title: app.getName(),
+        x: lastWindowState.x,
+        y: lastWindowState.y,
+        // width: lastWindowState.width,
+        // height: lastWindowState.height,
+        icon: process.platform === 'linux' && path.join(__dirname, 'build/icon.png'),
+        minWidth: 800,
+        minHeight: 400,
+        alwaysOnTop: config.get('alwaysOnTop'),
+        titleBarStyle: process.platform === 'darwin' && Number(require('os').release().split('.')[0]) >= 17 ? null : 'hidden-inset',
+        autoHideMenuBar: true,
+        webPreferences: {
+            preload: path.join(__dirname, 'browser.js'),
+            nodeIntegration: false,
+            plugins: true
+        }
+    });
 
-  const lastWindowState = config.get('lastWindowState');
-  // const mainURL = 'https://play.pocketcasts.com/users/sign_in';
-  const betaUrl = 'https://playbeta.pocketcasts.com/web/';
-  const titlePrefix = 'PocketCasts';
+    win.loadURL(betaUrl)
 
-  // Create the browser window.
-  win = new BrowserWindow({
-    // title: app.getName(),
-    x: lastWindowState.x,
-    y: lastWindowState.y,
-    // width: lastWindowState.width,
-    // height: lastWindowState.height,
-    icon: process.platform === 'linux' && path.join(__dirname, 'build/icon.png'),
-    minWidth: 800,
-    minHeight: 400,
-    alwaysOnTop: config.get('alwaysOnTop'),
-    titleBarStyle: process.platform === 'darwin' && Number(require('os').release().split('.')[0]) >= 17 ? null : 'hidden-inset',
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, 'browser.js'),
-      nodeIntegration: false,
-      plugins: true
-    }
-  });
+    win.on('focus', () => {
+        mediaKeys.registerGlobalMediaButtons(win);
+    });
 
-  win.loadURL(betaUrl)
-
-  win.on('focus', () => {
-    registerGlobalMediaButtons();
-  });
-
-  // Emitted when the window is closed.
-  win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    win = null
-  })
+    // Emitted when the window is closed.
+    win.on('closed', () => {
+        // Dereference the window object, usually you would store windows
+        // in an array if your app supports multi windows, this is the time
+        // when you should delete the corresponding element.
+        win = null
+    })
 }
 
 // This method will be called when Electron has finished
@@ -70,17 +61,17 @@ app.on('ready', createWindow)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+    // On macOS it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
 })
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createWindow()
-  }
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (win === null) {
+        createWindow()
+    }
 })
