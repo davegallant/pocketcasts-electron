@@ -1,8 +1,8 @@
-# pocketcasts_electron 
+# PocketCasts Beta Electron (Unofficial)
 
 [![Build Status](https://travis-ci.org/davegallant/pocketcasts_electron.svg?branch=master)](https://travis-ci.org/davegallant/pocketcasts_electron)
 
-Wraps the Pocket Casts beta web page in a sexy electron package.
+Wraps the Pocket Casts beta web page in an [electron](https://electronjs.org/) package.
 
 Media keys are mapped.
 
