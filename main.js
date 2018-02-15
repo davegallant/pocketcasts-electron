@@ -7,7 +7,6 @@ const path = require('path');
 const url = require('url');
 const mediaKeys = require('./mediaKeys');
 
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
@@ -15,8 +14,7 @@ let win
 function createWindow() {
 
     const lastWindowState = config.get('lastWindowState');
-    // const mainURL = 'https://play.pocketcasts.com/users/sign_in';
-    const betaUrl = 'https://playbeta.pocketcasts.com/web/';
+    const betaUrl = 'https://playbeta.pocketcasts.com/web/new-releases';
     const titlePrefix = 'PocketCasts';
 
     // Create the browser window.
@@ -26,7 +24,7 @@ function createWindow() {
         y: lastWindowState.y,
         // width: lastWindowState.width,
         // height: lastWindowState.height,
-        icon: process.platform === 'linux' && path.join(__dirname, 'build/icon.png'),
+        icon: path.join(__dirname, 'build/icon.png'),
         minWidth: 800,
         minHeight: 400,
         alwaysOnTop: config.get('alwaysOnTop'),
@@ -42,7 +40,19 @@ function createWindow() {
     win.loadURL(betaUrl)
 
     win.on('focus', () => {
-        mediaKeys.registerGlobalMediaButtons(win);
+        if (process.platform == 'win32' || process.platform == 'darwin') {
+            mediaKeys.registerGlobalMediaButtons(win, process.platform);
+        } else {
+            try {
+                const dbus = new DBus();
+                const session = dbus.getBus('session');
+
+                registerBindings('gnome', session);
+                registerBindings('mate', session);
+            } catch (e) {
+                // do nothing.
+            }
+        }
     });
 
     // Emitted when the window is closed.
