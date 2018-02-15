@@ -41,14 +41,14 @@ function createWindow() {
 
     win.on('focus', () => {
         if (process.platform == 'win32' || process.platform == 'darwin') {
-            mediaKeys.registerGlobalMediaButtons(win, process.platform);
+            mediaKeys.registerWinAndMac(win, process.platform);
         } else {
             try {
                 const dbus = new DBus();
                 const session = dbus.getBus('session');
 
-                registerBindings('gnome', session);
-                registerBindings('mate', session);
+                mediaKeys.registerLinux('gnome', session);
+                mediaKeys.registerLinux('mate', session);
             } catch (e) {
                 // do nothing.
             }

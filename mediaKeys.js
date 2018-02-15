@@ -3,7 +3,7 @@ const {
 } = require('electron');
 
 module.exports = ({
-    registerGlobalMediaButtons: function(win) {
+    registerWinAndMac: function(win) {
         globalShortcut.register('MediaPlayPause', () => {
             win.send('playPause');
         });
@@ -14,7 +14,7 @@ module.exports = ({
             win.send('skipForward');
         });
     },
-    registerBindings: function(desktopEnv, session) {
+    registerLinux: function(desktopEnv, session) {
         session.getInterface(`org.${desktopEnv}.SettingsDaemon`,
             `/org/${desktopEnv}/SettingsDaemon/MediaKeys`,
             `org.${desktopEnv}.SettingsDaemon.MediaKeys`, (err, iface) => {
