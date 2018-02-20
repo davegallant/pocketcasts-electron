@@ -1,6 +1,4 @@
 
-const DBus = require('dbus')
-
 const {
     globalShortcut
 } = require('electron');
@@ -8,9 +6,10 @@ const {
 module.exports = ({
     register: function(win, platform) {
         if (platform == 'win32' || platform == 'darwin') {
-            mediaKeys.registerWinAndMac(win);
+            module.exports.registerWinAndMac(win);
         } else {
             try {
+            	const DBus = require('dbus')
                 const dbus = new DBus();
                 const session = dbus.getBus('session');
 
