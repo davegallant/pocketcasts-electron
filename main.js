@@ -25,7 +25,7 @@ function createWindow() {
         // width: lastWindowState.width,
         // height: lastWindowState.height,
         icon: path.join(__dirname, 'build/icon.png'),
-        minWidth: 800,
+        minWidth: 1000,
         minHeight: 400,
         alwaysOnTop: config.get('alwaysOnTop'),
         titleBarStyle: process.platform === 'darwin' && Number(require('os').release().split('.')[0]) >= 17 ? null : 'hidden-inset',
@@ -40,19 +40,8 @@ function createWindow() {
     win.loadURL(betaUrl)
 
     win.on('focus', () => {
-        if (process.platform == 'win32' || process.platform == 'darwin') {
-            mediaKeys.registerWinAndMac(win, process.platform);
-        } else {
-            try {
-                const dbus = new DBus();
-                const session = dbus.getBus('session');
 
-                mediaKeys.registerLinux('gnome', session);
-                mediaKeys.registerLinux('mate', session);
-            } catch (e) {
-                // do nothing.
-            }
-        }
+        mediaKeys.register(win, process.platform)
     });
 
     // Emitted when the window is closed.
