@@ -30,8 +30,10 @@
     "url": "https://github.com/davegallant/pocketcasts_electron.git"
   },
   "dependencies": {
-    "dbus": "^1.0.3",
     "electron-store": "^1.3.0",
     "electron-updater": "^2.20.1"
+  },
+  "optionalDependencies": {
+    "dbus": "^1.0.3"
   }
 }
