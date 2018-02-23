@@ -6,7 +6,7 @@ Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in a
 
 Media keys are mapped.
 
-## Build for OS (Windows, Mac and Ubuntu)
+## How to build (Windows, Mac and Ubuntu)
 
  - `npm install`
  - <b>Ubuntu only:</b>`sudo apt install libdbus-1-dev libglib2.0-dev`
