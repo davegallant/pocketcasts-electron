@@ -40,25 +40,7 @@ function registerClickHandlers() {
     });
 }
 
-// Check if player is visible.
-// function checkForPlayer() {
-//     if (!playerAvailable) {
-//         const player = document.querySelector('#players');
-
-//         if (!player.classList.contains('ng-hide')) {
-//             playerAvailable = true;
-//             registerClickHandlers();
-//         } else {
-//             // Recheck for buttons.
-//             setTimeout(() => {
-//                 checkForPlayer();
-//             }, 3000);
-//         }
-//     }
-// }
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Check for the player elements.
-    // checkForPlayer();
+    // Register media keys
     registerClickHandlers();
 });
