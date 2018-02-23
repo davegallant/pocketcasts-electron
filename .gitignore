@@ -38,3 +38,5 @@ jspm_packages
 
 # elecron builder output folder
 dist/
+
+package-lock.json
