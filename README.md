@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/davegallant/pocketcasts-electron.svg?branch=master)](https://travis-ci.org/davegallant/pocketcasts-electron)
 
-![pocketcasts_electron](https://user-images.githubusercontent.com/4519234/46927896-df071f80-d005-11e8-9994-2da3b483351b.PNG)
+![pocketcasts_electron](https://user-images.githubusercontent.com/4519234/46927950-2e4d5000-d006-11e8-8d51-f73b5b7473c5.PNG)
 
 
 Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in an [electron](https://electronjs.org/) package.
