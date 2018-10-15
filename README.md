@@ -1,6 +1,9 @@
 # PocketCasts Beta Electron (Unofficial)
 
-[![Build Status](https://travis-ci.org/davegallant/pocketcasts_electron.svg?branch=master)](https://travis-ci.org/davegallant/pocketcasts_electron)
+[![Build Status](https://travis-ci.org/davegallant/pocketcasts-electron.svg?branch=master)](https://travis-ci.org/davegallant/pocketcasts-electron)
+
+![pocketcasts_electron](https://user-images.githubusercontent.com/4519234/46927896-df071f80-d005-11e8-9994-2da3b483351b.PNG)
+
 
 Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in an [electron](https://electronjs.org/) package.
 
