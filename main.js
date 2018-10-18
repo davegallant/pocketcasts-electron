@@ -1,36 +1,39 @@
 const { app, BrowserWindow } = require("electron");
 const config = require("./config");
 const path = require("path");
-const url = require("url");
 const mediaKeys = require("./mediaKeys");
+const windowStateKeeper = require('electron-window-state');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 function createWindow() {
-  const lastWindowState = config.get("lastWindowState");
   const betaUrl = "https://playbeta.pocketcasts.com/web/new-releases";
-  const titlePrefix = "PocketCasts";
+
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 800,
+    defaultHeight: 600
+  });
 
   // Create the browser window.
   win = new BrowserWindow({
     title: app.getName(),
-    x: lastWindowState.x,
-    y: lastWindowState.y,
-    // width: lastWindowState.width,
-    // height: lastWindowState.height,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     icon: path.join(__dirname, "build/icon.png"),
-    minWidth: 1000,
-    minHeight: 400,
+    minWidth: 800,
+    minHeight: 600,
     alwaysOnTop: config.get("alwaysOnTop"),
     titleBarStyle:
       process.platform === "darwin" &&
-      Number(
-        require("os")
-          .release()
-          .split(".")[0]
-      ) >= 17
+        Number(
+          require("os")
+            .release()
+            .split(".")[0]
+        ) >= 17
         ? null
         : "hidden-inset",
     autoHideMenuBar: true,
@@ -40,6 +43,11 @@ function createWindow() {
       plugins: true
     }
   });
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(win);
 
   win.loadURL(betaUrl);
 
