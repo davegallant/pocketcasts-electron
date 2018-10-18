@@ -1,7 +1,7 @@
 const { globalShortcut } = require("electron");
 
 module.exports = {
-  register: function(win, platform) {
+  register: function (win, platform) {
     if (platform == "win32" || platform == "darwin") {
       module.exports.registerWinAndMac(win);
     } else {
@@ -17,7 +17,7 @@ module.exports = {
       }
     }
   },
-  registerWinAndMac: function(win) {
+  registerWinAndMac: function (win) {
     globalShortcut.register("MediaPlayPause", () => {
       win.send("playPause");
     });
@@ -28,7 +28,7 @@ module.exports = {
       win.send("skipForward");
     });
   },
-  registerLinux: function(desktopEnv, session, win) {
+  registerLinux: function (desktopEnv, session, win) {
     session.getInterface(
       `org.${desktopEnv}.SettingsDaemon`,
       `/org/${desktopEnv}/SettingsDaemon/MediaKeys`,
