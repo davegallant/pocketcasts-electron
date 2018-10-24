@@ -32,8 +32,7 @@
   "dependencies": {
     "electron-store": "^2.0.0",
     "electron-updater": "^3.1.2",
-    "electron-window-state": "^5.0.2",
-    "rimraf": "^2.6.2"
+    "electron-window-state": "^5.0.2"
   },
   "optionalDependencies": {
     "dbus": "^1.0.3"

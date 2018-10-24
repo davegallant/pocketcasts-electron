@@ -8,6 +8,21 @@ const windowStateKeeper = require('electron-window-state');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
+var myWindow = null;
+
+var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
+  // Someone tried to run a second instance, we should focus our window.
+  if (myWindow) {
+    if (myWindow.isMinimized()) myWindow.restore();
+    myWindow.focus();
+  }
+});
+
+if (shouldQuit) {
+  app.quit();
+  return;
+}
+
 function createWindow() {
   const betaUrl = "https://playbeta.pocketcasts.com/web/new-releases";
 
