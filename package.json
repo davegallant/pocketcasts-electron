@@ -18,6 +18,7 @@
     "pack": "yarn compile && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
     "release": "yarn compile && electron-builder",
+    "ci": "yarn compile && electron-builder --publish=never",
     "start": "yarn install && yarn compile && electron ./app"
   },
   "devDependencies": {
