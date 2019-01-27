@@ -13,18 +13,20 @@
     }
   },
   "scripts": {
+    "ci": "yarn compile && yarn lint && electron-builder --publish=never",
     "compile": "rimraf app/out",
     "dist": "yarn compile && electron-builder",
+    "lint": "./node_modules/.bin/eslint . ./**/*.js",
     "pack": "yarn compile && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
     "release": "yarn compile && electron-builder",
-    "ci": "yarn compile && electron-builder --publish=never",
     "start": "yarn install && yarn compile && electron ./app"
   },
   "devDependencies": {
     "electron": "^4.0.0",
     "electron-builder": "^20.38.5",
-    "electron-debug": "^2.0.0"
+    "electron-debug": "^2.0.0",
+    "eslint": "^5.12.1"
   },
   "repository": {
     "type": "git",
