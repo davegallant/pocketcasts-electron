@@ -10,20 +10,18 @@ let win;
 
 var myWindow = null;
 
-var shouldQuit = app.makeSingleInstance(function(
-  commandLine,
-  workingDirectory
-) {
-  // Someone tried to run a second instance, we should focus our window.
-  if (myWindow) {
-    if (myWindow.isMinimized()) myWindow.restore();
-    myWindow.focus();
-  }
-});
+const gotTheLock = app.requestSingleInstanceLock();
 
-if (shouldQuit) {
+if (!gotTheLock) {
   app.quit();
-  return;
+} else {
+  app.on("second-instance", (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (myWindow) {
+      if (myWindow.isMinimized()) myWindow.restore();
+      myWindow.focus();
+    }
+  });
 }
 
 function createWindow() {

@@ -10,9 +10,9 @@ matrix:
 
 cache:
   directories:
-  - node_modules
-  - $HOME/.cache/electron
-  - $HOME/.cache/electron-builder
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 
 before_install:
   - |

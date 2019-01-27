@@ -1,6 +1,6 @@
 {
   "name": "pocketcasts-electron",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "main.js",
   "build": {
     "appId": "com.pocketcasts.app",
@@ -13,18 +13,20 @@
     }
   },
   "scripts": {
+    "ci": "yarn compile && yarn lint && electron-builder --publish=never",
     "compile": "rimraf app/out",
     "dist": "yarn compile && electron-builder",
+    "lint": "./node_modules/.bin/eslint . ./**/*.js",
     "pack": "yarn compile && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
     "release": "yarn compile && electron-builder",
-    "ci": "yarn compile && electron-builder --publish=never",
     "start": "yarn install && yarn compile && electron ./app"
   },
   "devDependencies": {
-    "electron": "^3.0.5",
-    "electron-builder": "^20.28.4",
-    "electron-debug": "^2.0.0"
+    "electron": "^4.0.0",
+    "electron-builder": "^20.38.5",
+    "electron-debug": "^2.0.0",
+    "eslint": "^5.12.1"
   },
   "repository": {
     "type": "git",
@@ -32,7 +34,6 @@
   },
   "dependencies": {
     "electron-store": "^2.0.0",
-    "electron-updater": "^3.1.2",
     "electron-window-state": "^5.0.2",
     "rimraf": "^2.6.2"
   },
