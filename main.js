@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require("electron");
 const config = require("./config");
 const path = require("path");
 const mediaKeys = require("./mediaKeys");
-const windowStateKeeper = require('electron-window-state');
+const windowStateKeeper = require("electron-window-state");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -10,7 +10,10 @@ let win;
 
 var myWindow = null;
 
-var shouldQuit = app.makeSingleInstance(function (commandLine, workingDirectory) {
+var shouldQuit = app.makeSingleInstance(function(
+  commandLine,
+  workingDirectory
+) {
   // Someone tried to run a second instance, we should focus our window.
   if (myWindow) {
     if (myWindow.isMinimized()) myWindow.restore();
@@ -44,11 +47,11 @@ function createWindow() {
     alwaysOnTop: config.get("alwaysOnTop"),
     titleBarStyle:
       process.platform === "darwin" &&
-        Number(
-          require("os")
-            .release()
-            .split(".")[0]
-        ) >= 17
+      Number(
+        require("os")
+          .release()
+          .split(".")[0]
+      ) >= 17
         ? null
         : "hidden-inset",
     autoHideMenuBar: true,
