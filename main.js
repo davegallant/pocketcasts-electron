@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu, Tray } = require("electron");
 const config = require("./config");
 const path = require("path");
 const mediaKeys = require("./mediaKeys");
@@ -7,20 +7,61 @@ const windowStateKeeper = require("electron-window-state");
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-
-var myWindow = null;
+let tray = null;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.on("second-instance", (event, commandLine, workingDirectory) => {
+  app.on("second-instance", () => {
     // Someone tried to run a second instance, we should focus our window.
-    if (myWindow) {
-      if (myWindow.isMinimized()) myWindow.restore();
-      myWindow.focus();
+    if (win) {
+      if (win.isMinimized()) win.restore();
+      win.focus();
     }
+  });
+}
+
+// Add icons and context menus to the system's notification area.
+function createTray() {
+  var iconPath = path.join(__dirname, "build/icon.png");
+  tray = new Tray(iconPath);
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Play/Pause",
+      type: "normal",
+      click() {
+        win.send("playPause");
+      }
+    },
+    {
+      label: "Skip 30s",
+      type: "normal",
+      click() {
+        win.send("skipForward");
+      }
+    },
+    {
+      label: "Rewind 15s",
+      type: "normal",
+      click() {
+        win.send("skipBack");
+      }
+    },
+    {
+      label: "Quit",
+      type: "normal",
+      click() {
+        app.quit();
+      }
+    }
+  ]);
+  tray.setToolTip("Pocket Casts");
+  tray.setContextMenu(contextMenu);
+
+  tray.on("click", () => {
+    win.isVisible() ? win.hide() : win.show();
   });
 }
 
@@ -83,6 +124,8 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+app.on("ready", createTray);
+
 app.on("ready", createWindow);
 
 // Quit when all windows are closed.
