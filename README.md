@@ -11,10 +11,9 @@ Media keys are mapped.
 ## How to build (Windows, Mac and Ubuntu)
 
 ```bash
-npm install -g yarn
-yarn install
+npm install
 sudo apt install libdbus-1-dev libglib2.0-dev # ubuntu only
-yarn dist
+npm run dist # packages it up
 ```
 
 Built packages/installers located in dist/

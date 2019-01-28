@@ -25,7 +25,8 @@ if (!gotTheLock) {
 
 // Add icons and context menus to the system's notification area.
 function createTray() {
-  tray = new Tray("build/icon.png");
+  var iconPath = path.join(__dirname, "build/icon.png");
+  tray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "Play/Pause",

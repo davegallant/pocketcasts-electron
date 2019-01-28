@@ -13,14 +13,14 @@
     }
   },
   "scripts": {
-    "ci": "yarn compile && yarn lint && electron-builder --publish=never",
+    "ci": "npm run compile && npm run lint && electron-builder --publish=never",
     "compile": "rimraf app/out",
-    "dist": "yarn compile && electron-builder",
+    "dist": "npm run compile && electron-builder --publish=never",
     "lint": "./node_modules/.bin/eslint . ./**/*.js",
-    "pack": "yarn compile && electron-builder --dir",
+    "pack": "npm run compile && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
-    "release": "yarn compile && electron-builder",
-    "start": "yarn install && yarn compile && electron ./app"
+    "release": "npm run compile && electron-builder",
+    "start": "npm install && npm run compile && electron ./app"
   },
   "devDependencies": {
     "electron": "^4.0.0",
