@@ -3,7 +3,7 @@ import { app, BrowserWindow, Menu, nativeImage, Tray } from "electron";
 import windowStateKeeper = require("electron-window-state");
 import path = require("path");
 import { config } from "./config";
-const mediaKeys = require("./mediaKeys");
+import { registerKeys } from "./mediaKeys";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -104,7 +104,7 @@ function createWindow() {
   win.loadURL(betaUrl);
 
   win.on("focus", () => {
-    mediaKeys.register(win);
+    registerKeys(win);
   });
 
   // Emitted when the window is closed.
