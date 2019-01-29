@@ -7,7 +7,7 @@
     "appId": "com.pocketcasts.app",
     "files": [
       "**/*",
-      "build/icon.*"
+      "assets/icon.*"
     ],
     "mac": {
       "category": "sound.pocketcasts"
@@ -17,9 +17,8 @@
     "build": "tsc",
     "ci": "npm run build && npm run compile && npm run lint && electron-builder --publish=never",
     "compile": "rimraf app/out",
-    "package": "npm run compile && electron-builder --publish=never",
+    "package": "npm run build && npm run compile && electron-builder --publish=never",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "pack": "npm run compile && electron-builder --dir",
     "postinstall": "electron-builder install-app-deps",
     "release": "npm run compile && electron-builder",
     "start": "npm run build && npm run compile && electron ./dist/main.js",
