@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, Tray } from "electron";
+import { app, BrowserWindow, Menu, Tray, nativeImage } from "electron";
 
 const config = require("./config");
 const path = require("path");
@@ -26,8 +26,10 @@ if (!gotTheLock) {
 
 // Add icons and context menus to the system's notification area.
 function createTray() {
-  var iconPath: string = path.join(__dirname, "build/icon.png");
-  tray = new Tray(iconPath);
+  var iconPath: string = path.join(__dirname, "assets/icon.png");
+  console.log(iconPath);
+  const trayIcon = nativeImage.createFromPath(iconPath);
+  tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "⏯️ Play/Pause",
@@ -81,7 +83,7 @@ function createWindow() {
     y: mainWindowState.y,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    icon: path.join(__dirname, "build/icon.png"),
+    icon: path.join(__dirname, "assets/icon.png"),
     minWidth: 800,
     minHeight: 600,
     alwaysOnTop: config.get("alwaysOnTop"),

@@ -12,7 +12,6 @@ Media keys are mapped.
 
 ```bash
 npm install
-sudo apt install libdbus-1-dev libglib2.0-dev # ubuntu only
 npm run dist # packages it up
 ```
 
