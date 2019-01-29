@@ -1,4 +1,5 @@
-const { app, BrowserWindow, Menu, Tray } = require("electron");
+import { app, BrowserWindow, Menu, Tray } from "electron";
+
 const config = require("./config");
 const path = require("path");
 const mediaKeys = require("./mediaKeys");
@@ -6,8 +7,8 @@ const windowStateKeeper = require("electron-window-state");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win;
-let tray = null;
+let win: BrowserWindow = null;
+let tray: Tray = null;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -25,32 +26,32 @@ if (!gotTheLock) {
 
 // Add icons and context menus to the system's notification area.
 function createTray() {
-  var iconPath = path.join(__dirname, "build/icon.png");
+  var iconPath: string = path.join(__dirname, "build/icon.png");
   tray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: "Play/Pause",
+      label: "⏯️ Play/Pause",
       type: "normal",
       click() {
-        win.send("playPause");
+        win.webContents.send("playPause");
       }
     },
     {
-      label: "Skip 30s",
+      label: "⏭️ Skip 30s",
       type: "normal",
       click() {
-        win.send("skipForward");
+        win.webContents.send("skipForward");
       }
     },
     {
-      label: "Rewind 15s",
+      label: "⏮️ Rewind 15s",
       type: "normal",
       click() {
-        win.send("skipBack");
+        win.webContents.send("skipBack");
       }
     },
     {
-      label: "Quit",
+      label: "⏹️ Quit",
       type: "normal",
       click() {
         app.quit();
@@ -84,15 +85,6 @@ function createWindow() {
     minWidth: 800,
     minHeight: 600,
     alwaysOnTop: config.get("alwaysOnTop"),
-    titleBarStyle:
-      process.platform === "darwin" &&
-      Number(
-        require("os")
-          .release()
-          .split(".")[0]
-      ) >= 17
-        ? null
-        : "hidden-inset",
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, "browser.js"),

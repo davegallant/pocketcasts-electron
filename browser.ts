@@ -1,6 +1,5 @@
 "use strict";
 const electron = require("electron");
-const config = require("./config");
 
 const { ipcRenderer: ipc } = electron;
 
@@ -11,15 +10,18 @@ const skipBackSelector = ".skip_back_button";
 let playerAvailable = false;
 
 ipc.on("playPause", () => {
-  document.querySelector(playPauseSelector).click();
+  let element: HTMLElement = document.querySelector(playPauseSelector);
+  element.click();
 });
 
 ipc.on("skipForward", () => {
-  document.querySelector(skipForwardSelector).click();
+  let element: HTMLElement = document.querySelector(skipForwardSelector);
+  element.click();
 });
 
 ipc.on("skipBack", () => {
-  document.querySelector(skipBackSelector).click();
+  let element: HTMLElement = document.querySelector(skipBackSelector);
+  element.click();
 });
 
 function registerClickHandlers() {
