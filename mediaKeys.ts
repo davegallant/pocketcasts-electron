@@ -1,7 +1,7 @@
 import { BrowserWindow, globalShortcut } from "electron";
 
 module.exports = {
-  register: function(win: BrowserWindow, platform: String) {
+  register: function(win: BrowserWindow) {
     globalShortcut.register("MediaPlayPause", () => {
       win.webContents.send("playPause");
     });
@@ -11,5 +11,5 @@ module.exports = {
     globalShortcut.register("MediaNextTrack", () => {
       win.webContents.send("skipForward");
     });
-  }
+  },
 };

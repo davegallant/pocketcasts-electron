@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, Tray, nativeImage } from "electron";
+import { app, BrowserWindow, Menu, nativeImage, Tray } from "electron";
 
 const config = require("./config");
 const path = require("path");
@@ -36,29 +36,29 @@ function createTray() {
       type: "normal",
       click() {
         win.webContents.send("playPause");
-      }
+      },
     },
     {
       label: "⏭️ Skip 30s",
       type: "normal",
       click() {
         win.webContents.send("skipForward");
-      }
+      },
     },
     {
       label: "⏮️ Rewind 15s",
       type: "normal",
       click() {
         win.webContents.send("skipBack");
-      }
+      },
     },
     {
       label: "⏹️ Quit",
       type: "normal",
       click() {
         app.quit();
-      }
-    }
+      },
+    },
   ]);
   tray.setToolTip("Pocket Casts");
   tray.setContextMenu(contextMenu);
@@ -73,7 +73,7 @@ function createWindow() {
 
   let mainWindowState = windowStateKeeper({
     defaultWidth: 800,
-    defaultHeight: 600
+    defaultHeight: 600,
   });
 
   // Create the browser window.
@@ -91,8 +91,8 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "browser.js"),
       nodeIntegration: false,
-      plugins: true
-    }
+      plugins: true,
+    },
   });
 
   // Let us register listeners on the window, so we can update the state
