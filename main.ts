@@ -1,9 +1,9 @@
 import { app, BrowserWindow, Menu, nativeImage, Tray } from "electron";
 
-const config = require("./config");
-const path = require("path");
+import windowStateKeeper = require("electron-window-state");
+import path = require("path");
+import { config } from "./config";
 const mediaKeys = require("./mediaKeys");
-const windowStateKeeper = require("electron-window-state");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -18,7 +18,9 @@ if (!gotTheLock) {
   app.on("second-instance", () => {
     // Someone tried to run a second instance, we should focus our window.
     if (win) {
-      if (win.isMinimized()) win.restore();
+      if (win.isMinimized()) {
+        win.restore();
+      }
       win.focus();
     }
   });
@@ -26,8 +28,7 @@ if (!gotTheLock) {
 
 // Add icons and context menus to the system's notification area.
 function createTray() {
-  var iconPath: string = path.join(__dirname, "assets/icon.png");
-  console.log(iconPath);
+  const iconPath: string = path.join(__dirname, "assets/icon.png");
   const trayIcon = nativeImage.createFromPath(iconPath);
   tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
@@ -71,28 +72,28 @@ function createTray() {
 function createWindow() {
   const betaUrl = "https://playbeta.pocketcasts.com/web/new-releases";
 
-  let mainWindowState = windowStateKeeper({
-    defaultWidth: 800,
+  const mainWindowState = windowStateKeeper({
     defaultHeight: 600,
+    defaultWidth: 800,
   });
 
   // Create the browser window.
   win = new BrowserWindow({
-    title: app.getName(),
-    x: mainWindowState.x,
-    y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
-    icon: path.join(__dirname, "assets/icon.png"),
-    minWidth: 800,
-    minHeight: 600,
     alwaysOnTop: config.get("alwaysOnTop"),
     autoHideMenuBar: true,
+    height: mainWindowState.height,
+    icon: path.join(__dirname, "assets/icon.png"),
+    minHeight: 600,
+    minWidth: 800,
+    title: app.getName(),
     webPreferences: {
-      preload: path.join(__dirname, "browser.js"),
       nodeIntegration: false,
       plugins: true,
+      preload: path.join(__dirname, "browser.js"),
     },
+    width: mainWindowState.width,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
   });
 
   // Let us register listeners on the window, so we can update the state

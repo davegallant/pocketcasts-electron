@@ -1,13 +1,12 @@
-"use strict";
-const Store = require("electron-store");
+import ElectronStore = require("electron-store");
 
-module.exports = new Store({
+export const config = new ElectronStore({
   defaults: {
-    zoomFactor: 1,
-    lastWindowState: {
-      width: 800,
-      height: 600,
-    },
     alwaysOnTop: false,
+    lastWindowState: {
+      height: 600,
+      width: 800,
+    },
+    zoomFactor: 1,
   },
 });
