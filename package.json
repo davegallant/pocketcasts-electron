@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "ci": "npm run compile && npm run lint && electron-builder --publish=never",
+    "ci": "npm run build && npm run compile && npm run lint && electron-builder --publish=never",
     "compile": "rimraf app/out",
     "package": "npm run compile && electron-builder --publish=never",
     "lint": "tslint -c tslint.json -p tsconfig.json",

@@ -103,7 +103,7 @@ function createWindow() {
   win.loadURL(betaUrl);
 
   win.on("focus", () => {
-    mediaKeys.register(win, process.platform);
+    mediaKeys.register(win);
   });
 
   // Emitted when the window is closed.
