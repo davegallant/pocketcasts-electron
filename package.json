@@ -28,6 +28,7 @@
     "electron": "^4.0.0",
     "electron-builder": "^20.38.5",
     "electron-debug": "^2.0.0",
+    "electron-rebuild": "^1.8.2",
     "eslint": "^5.12.1"
   },
   "repository": {
