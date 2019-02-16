@@ -2,26 +2,23 @@
   "name": "pocketcasts-electron",
   "version": "0.1.3",
   "license": "MIT",
-  "main": "main.js",
+  "main": "./dist/main.js",
   "build": {
     "appId": "com.pocketcasts.app",
     "files": [
-      "**/*",
-      "assets/icon.*"
+      "./dist/**"
     ],
     "mac": {
       "category": "sound.pocketcasts"
     }
   },
   "scripts": {
-    "build": "tsc",
-    "ci": "npm run build && npm run compile && npm run lint && electron-builder --publish=never",
-    "clean": "rimraf app/out",
-    "package": "npm run build && npm run compile && electron-builder --publish=never",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
     "assets": "copyfiles assets/** ./dist",
-    "release": "npm run compile && electron-builder",
-    "start": "npm run build && npm run assets && electron ./dist/main.js",
+    "ci": "npm run compile && tsc && npm run lint && electron-builder --publish=never",
+    "compile": "rimraf app/out",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "package": "tsc && electron-builder --publish=never",
+    "start": "npm run assets && electron ./dist/main.js",
     "watch": "tsc -w"
   },
   "devDependencies": {
