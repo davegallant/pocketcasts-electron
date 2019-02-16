@@ -1,13 +1,14 @@
-const { app, BrowserWindow, Menu, Tray } = require("electron");
-const config = require("./config");
-const path = require("path");
-const mediaKeys = require("./mediaKeys");
-const windowStateKeeper = require("electron-window-state");
+import { app, BrowserWindow, Menu, nativeImage, Tray } from "electron";
+
+import windowStateKeeper = require("electron-window-state");
+import path = require("path");
+import { config } from "./config";
+import { registerKeys } from "./mediaKeys";
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win;
-let tray = null;
+let win: BrowserWindow = null;
+let tray: Tray = null;
 
 const gotTheLock = app.requestSingleInstanceLock();
 
@@ -17,7 +18,9 @@ if (!gotTheLock) {
   app.on("second-instance", () => {
     // Someone tried to run a second instance, we should focus our window.
     if (win) {
-      if (win.isMinimized()) win.restore();
+      if (win.isMinimized()) {
+        win.restore();
+      }
       win.focus();
     }
   });
@@ -25,37 +28,38 @@ if (!gotTheLock) {
 
 // Add icons and context menus to the system's notification area.
 function createTray() {
-  var iconPath = path.join(__dirname, "build/icon.png");
-  tray = new Tray(iconPath);
+  const iconPath: string = path.join(__dirname, "assets/icon.png");
+  const trayIcon = nativeImage.createFromPath(iconPath);
+  tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: "Play/Pause",
+      label: "⏯️ Play/Pause",
       type: "normal",
       click() {
-        win.send("playPause");
-      }
+        win.webContents.send("playPause");
+      },
     },
     {
-      label: "Skip 30s",
+      label: "⏭️ Skip 30s",
       type: "normal",
       click() {
-        win.send("skipForward");
-      }
+        win.webContents.send("skipForward");
+      },
     },
     {
-      label: "Rewind 15s",
+      label: "⏮️ Rewind 15s",
       type: "normal",
       click() {
-        win.send("skipBack");
-      }
+        win.webContents.send("skipBack");
+      },
     },
     {
-      label: "Quit",
+      label: "⏹️ Quit",
       type: "normal",
       click() {
         app.quit();
-      }
-    }
+      },
+    },
   ]);
   tray.setToolTip("Pocket Casts");
   tray.setContextMenu(contextMenu);
@@ -68,37 +72,28 @@ function createTray() {
 function createWindow() {
   const betaUrl = "https://playbeta.pocketcasts.com/web/new-releases";
 
-  let mainWindowState = windowStateKeeper({
+  const mainWindowState = windowStateKeeper({
+    defaultHeight: 600,
     defaultWidth: 800,
-    defaultHeight: 600
   });
 
   // Create the browser window.
   win = new BrowserWindow({
+    alwaysOnTop: config.get("alwaysOnTop"),
+    autoHideMenuBar: true,
+    height: mainWindowState.height,
+    icon: path.join(__dirname, "assets/icon.png"),
+    minHeight: 600,
+    minWidth: 800,
     title: app.getName(),
+    webPreferences: {
+      nodeIntegration: false,
+      plugins: true,
+      preload: path.join(__dirname, "browser.js"),
+    },
+    width: mainWindowState.width,
     x: mainWindowState.x,
     y: mainWindowState.y,
-    width: mainWindowState.width,
-    height: mainWindowState.height,
-    icon: path.join(__dirname, "build/icon.png"),
-    minWidth: 800,
-    minHeight: 600,
-    alwaysOnTop: config.get("alwaysOnTop"),
-    titleBarStyle:
-      process.platform === "darwin" &&
-      Number(
-        require("os")
-          .release()
-          .split(".")[0]
-      ) >= 17
-        ? null
-        : "hidden-inset",
-    autoHideMenuBar: true,
-    webPreferences: {
-      preload: path.join(__dirname, "browser.js"),
-      nodeIntegration: false,
-      plugins: true
-    }
   });
 
   // Let us register listeners on the window, so we can update the state
@@ -109,7 +104,7 @@ function createWindow() {
   win.loadURL(betaUrl);
 
   win.on("focus", () => {
-    mediaKeys.register(win, process.platform);
+    registerKeys(win, process.platform);
   });
 
   // Emitted when the window is closed.

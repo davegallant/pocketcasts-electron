@@ -1,25 +1,24 @@
 "use strict";
-const electron = require("electron");
-const config = require("./config");
 
-const { ipcRenderer: ipc } = electron;
+import { ipcRenderer } from "electron";
 
 const playPauseSelector = ".play_pause_button";
 const skipForwardSelector = ".skip_forward_button";
 const skipBackSelector = ".skip_back_button";
 
-let playerAvailable = false;
-
-ipc.on("playPause", () => {
-  document.querySelector(playPauseSelector).click();
+ipcRenderer.on("playPause", () => {
+  const element: HTMLElement = document.querySelector(playPauseSelector);
+  element.click();
 });
 
-ipc.on("skipForward", () => {
-  document.querySelector(skipForwardSelector).click();
+ipcRenderer.on("skipForward", () => {
+  const element: HTMLElement = document.querySelector(skipForwardSelector);
+  element.click();
 });
 
-ipc.on("skipBack", () => {
-  document.querySelector(skipBackSelector).click();
+ipcRenderer.on("skipBack", () => {
+  const element: HTMLElement = document.querySelector(skipBackSelector);
+  element.click();
 });
 
 function registerClickHandlers() {
@@ -28,13 +27,13 @@ function registerClickHandlers() {
   const skipForwardEl = document.querySelector(skipForwardSelector);
 
   playButtonEl.addEventListener("click", () => {
-    ipc.send("playPause");
+    ipcRenderer.send("playPause");
   });
   skipBackEl.addEventListener("click", () => {
-    ipc.send("skipBack");
+    ipcRenderer.send("skipBack");
   });
   skipForwardEl.addEventListener("click", () => {
-    ipc.send("skipForward");
+    ipcRenderer.send("skipForward");
   });
 }
 

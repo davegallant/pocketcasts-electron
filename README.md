@@ -8,7 +8,7 @@ Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in a
 
 Media keys are mapped.
 
-## How to build (Windows, Mac and Ubuntu)
+## How to build (Windows, Mac and Linux)
 
 ```bash
 npm install
