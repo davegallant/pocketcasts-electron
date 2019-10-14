@@ -37,7 +37,7 @@
     "electron-log": "^3.0.1",
     "electron-store": "^2.0.0",
     "electron-window-state": "^5.0.2",
-    "rimraf": "^2.6.2",
+    "rimraf": "^3.0.0",
     "tslint": "^5.12.1",
     "typescript": "^3.2.4"
   },
