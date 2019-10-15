@@ -1,8 +1,4 @@
 {
-  "name": "pocketcasts-electron",
-  "version": "0.1.3",
-  "license": "MIT",
-  "main": "./dist/main.js",
   "build": {
     "appId": "com.pocketcasts.app",
     "files": [
@@ -11,25 +7,6 @@
     "mac": {
       "category": "sound.pocketcasts"
     }
-  },
-  "scripts": {
-    "assets": "copyfiles assets/** ./dist",
-    "ci": "npm run compile && tsc && npm run lint && electron-builder --publish=never",
-    "compile": "rimraf app/out",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
-    "package": "tsc && electron-builder --publish=never",
-    "start": "npm run assets && electron ./dist/main.js",
-    "watch": "tsc -w"
-  },
-  "devDependencies": {
-    "electron": "^6.0.12",
-    "electron-builder": "^21.2.0",
-    "electron-debug": "^2.0.0",
-    "electron-rebuild": "^1.8.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/davegallant/pocketcasts_electron.git"
   },
   "dependencies": {
     "@types/electron-store": "^1.3.0",
@@ -41,7 +18,31 @@
     "tslint": "^5.12.1",
     "typescript": "^3.2.4"
   },
+  "devDependencies": {
+    "electron": "^4.0.0",
+    "electron-builder": "^21.2.0",
+    "electron-debug": "^2.0.0",
+    "electron-rebuild": "^1.8.2"
+  },
+  "license": "MIT",
+  "main": "./dist/main.js",
+  "name": "pocketcasts-electron",
   "optionalDependencies": {
-    "dbus": "^1.0.3"
-  }
+    "dbus": "^1.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davegallant/pocketcasts_electron.git"
+  },
+  "scripts": {
+    "assets": "copyfiles assets/** ./dist",
+    "build": "electron-builder --publish=never",
+    "ci": "npm run compile && tsc && npm run lint && npm run build",
+    "compile": "rimraf app/out",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "package": "tsc && npm run build",
+    "start": "tsc && electron ./dist/main.js",
+    "watch": "tsc -w"
+  },
+  "version": "0.1.3"
 }
