@@ -13,39 +13,42 @@ export function registerKeys(win: BrowserWindow, platform: string) {
       win.webContents.send("skipForward");
     });
   } else {
-    // dbus takes control on many Linux distros.
+    // Linux
     try {
-      const DBus = require("dbus");
-      const dbus = new DBus();
-      const session = dbus.getBus("session");
-      const desktopEnv = "gnome";
-
-      session.getInterface(
-        `org.${desktopEnv}.SettingsDaemon`,
-        `/org/${desktopEnv}/SettingsDaemon/MediaKeys`,
-        `org.${desktopEnv}.SettingsDaemon.MediaKeys`,
-        // @ts-ignore
-        (err: Error, iface) => {
-          if (!err) {
-            iface.on("MediaPlayerKeyPressed", (keyName: string) => {
-              switch (keyName) {
-                case "Next":
-                  win.webContents.send("skipForward");
-                case "Previous":
-                  win.webContents.send("skipBack");
-                case "Play":
-                  win.webContents.send("playPause");
-              }
-            });
-            iface.GrabMediaPlayerKeys(
-              0,
-              `org.${desktopEnv}.SettingsDaemon.MediaKeys`,
-            ); // eslint-disable-line
-          }
-        },
-      );
+      registerBindings('gnome', win);
     } catch (error) {
       log.error(error);
     }
+
   }
+}
+
+export function registerBindings(desktopEnv: string, win: BrowserWindow) {
+  // @ts-ignore
+  const listener = (err, iface) => {
+    if (!err) {
+      iface.on('MediaPlayerKeyPressed', (n: string, keyName: string) => {
+        switch (keyName) {
+          case "Next":
+            win.webContents.send("skipForward");
+          case "Previous":
+            win.webContents.send("skipBack");
+          case "Play":
+            win.webContents.send("playPause");
+          default: return;
+        }
+      });
+      iface.GrabMediaPlayerKeys('PocketCasts', 0);
+    }
+  };
+
+  let dbus = require("dbus-next");
+
+  const session = dbus.sessionBus();
+
+  log.info(Object.getOwnPropertyNames(session))
+
+  session.getInterface(`org.${desktopEnv}.SettingsDaemon`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`, `org.${desktopEnv}.SettingsDaemon.MediaKeys`, listener);
+  session.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`, `org.${desktopEnv}.SettingsDaemon.MediaKeys`, listener);
+
 }

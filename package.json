@@ -28,7 +28,7 @@
   "main": "./dist/main.js",
   "name": "pocketcasts-electron",
   "optionalDependencies": {
-    "dbus": "^1.0.5"
+    "dbus-next": "^0.7.1"
   },
   "repository": {
     "type": "git",
@@ -36,11 +36,12 @@
   },
   "scripts": {
     "assets": "copyfiles assets/** ./dist",
-    "build": "npm run assets && electron-rebuild && electron-builder --publish=never",
+    "build": "npm run assets && electron-builder --publish=never",
     "ci": "npm run compile && tsc && npm run lint && npm run build",
     "compile": "rimraf app/out",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "package": "tsc && npm run build",
+    "postinstall": "electron-builder install-app-deps",
     "start": "tsc && electron ./dist/main.js",
     "watch": "tsc -w"
   },
