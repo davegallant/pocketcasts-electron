@@ -13,12 +13,11 @@ export function registerKeys(win: BrowserWindow, platform: string) {
       win.webContents.send("skipForward");
     });
   } else {
-    // Unfortunately, dbus takes control on many Linux distros.
+    // dbus takes control on many Linux distros.
     try {
       const DBus = require("dbus");
       const dbus = new DBus();
       const session = dbus.getBus("session");
-
       const desktopEnv = "gnome";
 
       session.getInterface(
@@ -34,7 +33,7 @@ export function registerKeys(win: BrowserWindow, platform: string) {
                   win.webContents.send("skipForward");
                 case "Previous":
                   win.webContents.send("skipBack");
-                case "Play": // Assuming Play/Pause is the same button
+                case "Play":
                   win.webContents.send("playPause");
               }
             });
