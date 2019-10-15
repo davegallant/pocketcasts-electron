@@ -1,7 +1,11 @@
+import { app } from 'electron';
 import { BrowserWindow, globalShortcut } from "electron";
 import log = require("electron-log");
 
-export function registerKeys(win: BrowserWindow, platform: string) {
+const dbus = require("dbus-next");
+
+
+export async function registerKeys(win: BrowserWindow, platform: string) {
   if (platform === "win32" || platform === "darwin") {
     globalShortcut.register("MediaPlayPause", () => {
       win.webContents.send("playPause");
@@ -23,32 +27,42 @@ export function registerKeys(win: BrowserWindow, platform: string) {
   }
 }
 
-export function registerBindings(desktopEnv: string, win: BrowserWindow) {
+export async function registerBindings(desktopEnv: string, win: BrowserWindow) {
   // @ts-ignore
-  const listener = (err, iface) => {
-    if (!err) {
-      iface.on('MediaPlayerKeyPressed', (n: string, keyName: string) => {
-        switch (keyName) {
-          case "Next":
-            win.webContents.send("skipForward");
-          case "Previous":
-            win.webContents.send("skipBack");
-          case "Play":
-            win.webContents.send("playPause");
-          default: return;
-        }
-      });
-      iface.GrabMediaPlayerKeys('PocketCasts', 0);
+  const listener = (n, keyName) => {
+    switch (keyName) {
+      case "Next":
+        win.webContents.send("skipForward");
+      case "Previous":
+        win.webContents.send("skipBack");
+      case "Play":
+        win.webContents.send("playPause");
+      default: return;
     }
   };
 
-  let dbus = require("dbus-next");
-
   const session = dbus.sessionBus();
 
-  log.info(Object.getOwnPropertyNames(session))
+  try {
+    const legacy = await session.getProxyObject(`org.${desktopEnv}.SettingsDaemon`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`);
+    legacy.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
+    legacy.on('MediaPlayerKeyPressed', listener);
+    app.on('browser-window-focus', () => {
+      legacy.GrabMediaPlayerKeys('PocketCasts', 0);
+    });
+  } catch (e) {
+    //
+  }
 
-  session.getInterface(`org.${desktopEnv}.SettingsDaemon`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`, `org.${desktopEnv}.SettingsDaemon.MediaKeys`, listener);
-  session.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`, `org.${desktopEnv}.SettingsDaemon.MediaKeys`, listener);
+  try {
+    const future = await session.getProxyObject(`org.${desktopEnv}.SettingsDaemon.MediaKeys`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`);
+    future.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
+    future.on('MediaPlayerKeyPressed', listener);
+    app.on('browser-window-focus', () => {
+      future.GrabMediaPlayerKeys('PocketCasts', 0);
+    });
+  } catch (e) {
+    //
+  }
 
 }

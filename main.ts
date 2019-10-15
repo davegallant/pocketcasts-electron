@@ -1,8 +1,10 @@
+
 import { app, BrowserWindow, Menu, nativeImage, Tray } from "electron";
 
 import windowStateKeeper = require("electron-window-state");
 import path = require("path");
 import { config } from "./config";
+import log = require("electron-log");
 import { registerKeys } from "./mediaKeys";
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -103,9 +105,13 @@ function createWindow() {
 
   win.loadURL(betaUrl);
 
-  win.on("focus", () => {
-    registerKeys(win, process.platform);
-  });
+  try {
+    win.on("focus", () => {
+      registerKeys(win, process.platform);
+    });
+  } catch (err) {
+    log.error(err)
+  }
 
   // Emitted when the window is closed.
   win.on("closed", () => {
