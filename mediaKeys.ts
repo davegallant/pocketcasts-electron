@@ -1,8 +1,5 @@
-import { app } from 'electron';
-import { BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import log = require("electron-log");
-
-const dbus = require("dbus-next");
 
 
 export async function registerKeys(win: BrowserWindow, platform: string) {
@@ -19,7 +16,7 @@ export async function registerKeys(win: BrowserWindow, platform: string) {
   } else {
     // Linux
     try {
-      registerBindings('gnome', win);
+      registerBindings("gnome", win);
     } catch (error) {
       log.error(error);
     }
@@ -41,28 +38,26 @@ export async function registerBindings(desktopEnv: string, win: BrowserWindow) {
     }
   };
 
+  const dbus = require("dbus-next");
   const session = dbus.sessionBus();
 
   try {
     const legacy = await session.getProxyObject(`org.${desktopEnv}.SettingsDaemon`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`);
-    legacy.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
-    legacy.on('MediaPlayerKeyPressed', listener);
-    app.on('browser-window-focus', () => {
-      legacy.GrabMediaPlayerKeys('PocketCasts', 0);
-    });
+    const iface = legacy.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
+    iface.on("MediaPlayerKeyPressed", listener);
+    iface.GrabMediaPlayerKeys("PocketCasts", 0);
+
   } catch (e) {
-    //
+    log.error(e);
   }
 
   try {
     const future = await session.getProxyObject(`org.${desktopEnv}.SettingsDaemon.MediaKeys`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`);
-    future.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
-    future.on('MediaPlayerKeyPressed', listener);
-    app.on('browser-window-focus', () => {
-      future.GrabMediaPlayerKeys('PocketCasts', 0);
-    });
+    const iface = future.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
+    iface.on("MediaPlayerKeyPressed", listener);
+    iface.GrabMediaPlayerKeys("PocketCasts", 0);
   } catch (e) {
-    //
+    log.error(e);
   }
 
 }
