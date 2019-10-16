@@ -1,7 +1,8 @@
-import { BrowserWindow, globalShortcut } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import log = require("electron-log");
 
-export function registerKeys(win: BrowserWindow, platform: string) {
+
+export async function registerKeys(win: BrowserWindow, platform: string) {
   if (platform === "win32" || platform === "darwin") {
     globalShortcut.register("MediaPlayPause", () => {
       win.webContents.send("playPause");
@@ -13,40 +14,50 @@ export function registerKeys(win: BrowserWindow, platform: string) {
       win.webContents.send("skipForward");
     });
   } else {
-    // Unfortunately, dbus takes control on many Linux distros.
+    // Linux
     try {
-      const DBus = require("dbus");
-      const dbus = new DBus();
-      const session = dbus.getBus("session");
-
-      const desktopEnv = "gnome";
-
-      session.getInterface(
-        `org.${desktopEnv}.SettingsDaemon`,
-        `/org/${desktopEnv}/SettingsDaemon/MediaKeys`,
-        `org.${desktopEnv}.SettingsDaemon.MediaKeys`,
-        // @ts-ignore
-        (err: Error, iface) => {
-          if (!err) {
-            iface.on("MediaPlayerKeyPressed", (keyName: string) => {
-              switch (keyName) {
-                case "Next":
-                  win.webContents.send("skipForward");
-                case "Previous":
-                  win.webContents.send("skipBack");
-                case "Play": // Assuming Play/Pause is the same button
-                  win.webContents.send("playPause");
-              }
-            });
-            iface.GrabMediaPlayerKeys(
-              0,
-              `org.${desktopEnv}.SettingsDaemon.MediaKeys`,
-            ); // eslint-disable-line
-          }
-        },
-      );
+      registerBindings("gnome", win);
     } catch (error) {
       log.error(error);
     }
+
   }
+}
+
+export async function registerBindings(desktopEnv: string, win: BrowserWindow) {
+  // @ts-ignore
+  const listener = (n, keyName) => {
+    switch (keyName) {
+      case "Next":
+        win.webContents.send("skipForward");
+      case "Previous":
+        win.webContents.send("skipBack");
+      case "Play":
+        win.webContents.send("playPause");
+      default: return;
+    }
+  };
+
+  const dbus = require("dbus-next");
+  const session = dbus.sessionBus();
+
+  try {
+    const legacy = await session.getProxyObject(`org.${desktopEnv}.SettingsDaemon`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`);
+    const iface = legacy.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
+    iface.on("MediaPlayerKeyPressed", listener);
+    iface.GrabMediaPlayerKeys("PocketCasts", 0);
+
+  } catch (e) {
+    log.error(e);
+  }
+
+  try {
+    const future = await session.getProxyObject(`org.${desktopEnv}.SettingsDaemon.MediaKeys`, `/org/${desktopEnv}/SettingsDaemon/MediaKeys`);
+    const iface = future.getInterface(`org.${desktopEnv}.SettingsDaemon.MediaKeys`);
+    iface.on("MediaPlayerKeyPressed", listener);
+    iface.GrabMediaPlayerKeys("PocketCasts", 0);
+  } catch (e) {
+    log.error(e);
+  }
+
 }
