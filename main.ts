@@ -1,11 +1,13 @@
 import { app, BrowserWindow, Menu, nativeImage, Tray } from "electron";
-
+import log = require("electron-log");
 import windowStateKeeper = require("electron-window-state");
 import path = require("path");
+
 import { config } from "./config";
 import { registerKeys } from "./mediaKeys";
 
-// Keep a global reference of the window object, if you don't, the window will
+
+// Keep a global reference of the window object, if you don"t, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win: BrowserWindow = null;
 let tray: Tray = null;
@@ -26,7 +28,7 @@ if (!gotTheLock) {
   });
 }
 
-// Add icons and context menus to the system's notification area.
+// Add icons and context menus to the system"s notification area.
 function createTray() {
   const iconPath: string = path.join(__dirname, "assets/icon.png");
   const trayIcon = nativeImage.createFromPath(iconPath);
@@ -103,9 +105,13 @@ function createWindow() {
 
   win.loadURL(betaUrl);
 
-  win.on("focus", () => {
-    registerKeys(win, process.platform);
-  });
+  try {
+    win.on("focus", () => {
+      registerKeys(win, process.platform);
+    });
+  } catch (err) {
+    log.error(err);
+  }
 
   // Emitted when the window is closed.
   win.on("closed", () => {
@@ -133,7 +139,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-  // On macOS it's common to re-create a window in the app when the
+  // On macOS it"s common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow();
