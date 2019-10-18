@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut } from "electron";
+import { BrowserWindow, globalShortcut } from "electron";
 import log = require("electron-log");
 
 

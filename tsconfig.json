@@ -4,6 +4,7 @@
     "baseUrl": "../",
     "module": "commonjs",
     "noImplicitAny": true,
+    "noUnusedLocals": true,
     "outDir": "dist",
     "paths": {
       "*": [
