@@ -14,11 +14,16 @@ env:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
+dist: bionic
+addons:
+  apt:
+    packages:
+      - python3-pip
+      - python3-setuptools
 
 before_install:
   - python3 -m pip install pre-commit==1.20.0
   - git diff --name-only $TRAVIS_COMMIT_RANGE | xargs pre-commit run --files
-
 
 jobs:
   include:
