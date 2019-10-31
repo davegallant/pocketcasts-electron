@@ -45,7 +45,7 @@ jobs:
         - npm run release
       before_cache:
         - rm -rf $HOME/.cache/electron-builder/wine
-    - stage: Deploy linux
+    - stage: Deploy Linux
       if: tag IS present
       os: linux
       dist: bionic
