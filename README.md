@@ -5,7 +5,8 @@
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/davegallant/pocketcasts-electron.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davegallant/pocketcasts-electron/context:javascript)
 
 
-![pocketcasts_electron](https://user-images.githubusercontent.com/4519234/46927999-60f74880-d006-11e8-83a8-5f686d509a76.PNG)
+![pocketcasts_electron](https://user-images.githubusercontent.com/4519234/68080121-fbb9f500-fdca-11e9-99ce-fd13bbe91571.png)
+
 
 Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in an [electron](https://electronjs.org/) package.
 
