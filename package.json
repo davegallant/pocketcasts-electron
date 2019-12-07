@@ -39,7 +39,7 @@
     "assets": "copyfiles assets/** ./dist",
     "build": "npm run assets && electron-builder --publish=never",
     "ci": "npm run compile && tsc && npm run lint && npm run build",
-    "compile": "./node_modules/rimraf/bin.js app/out",
+    "compile": "rimraf app/out",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "package": "tsc && npm run build",
     "postinstall": "electron-builder install-app-deps",
