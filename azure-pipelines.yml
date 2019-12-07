@@ -24,21 +24,19 @@ steps:
       npm run ci
     displayName: "Build"
 
-  - script: |
-      npm run release
-    displayName: "Release"
-    # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')
-
-  - task: GitHubRelease@0
+  - task: GitHubRelease@1
     inputs:
-      gitHubConnection: davegallant
-      repositoryName: davegallant/pocketcasts-electron
-      tagSource: manual
-      tag: $(Build.BuildNumber)
+      action: 'create'
       assets: |
-          $(Build.ArtifactStagingDirectory)/*.AppImage
-          $(Build.ArtifactStagingDirectory)/*.dmg
-          $(Build.ArtifactStagingDirectory)/*.exe
-          $(Build.ArtifactStagingDirectory)/*.snap
+        ./dist/*.snap
+        ./dist/*.dmg
+        ./dist/*.exe
+        ./dist/*.AppImage
+      changeLogCompareToRelease: 'lastFullRelease'
+      changeLogType: 'commitBased'
+      gitHubConnection: 'github.com_davegallant'
+      repositoryName: 'davegallant/pocketcasts-electron'
+      tagSource: 'auto'
+      target: '$(Build.SourceVersion)'
     displayName: 'Create GitHub release'
     # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')
