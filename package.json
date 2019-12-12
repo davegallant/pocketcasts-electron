@@ -12,7 +12,7 @@
     "@types/electron-store": "^3.2.0",
     "@types/node": "^12.7.12",
     "copyfiles": "^2.1.0",
-    "electron-log": "^3.0.1",
+    "electron-log": "^4.0.0",
     "electron-store": "^5.0.0",
     "electron-window-state": "^5.0.2",
     "rimraf": "^3.0.0",
