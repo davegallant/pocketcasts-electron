@@ -5,10 +5,10 @@ strategy:
   matrix:
     linux:
       imageName: "ubuntu-18.04"
-    # mac:
-    #   imageName: "macos-10.13"
-    # windows:
-    #   imageName: "win1803"
+    mac:
+      imageName: "macos-10.13"
+    windows:
+      imageName: "win1803"
 
 pool:
   vmImage: $(imageName)
@@ -24,19 +24,19 @@ steps:
       npm run ci
     displayName: "Build"
 
-  - task: GitHubRelease@1
-    inputs:
-      action: 'create'
-      assets: |
-        ./dist/*.snap
-        ./dist/*.dmg
-        ./dist/*.exe
-        ./dist/*.AppImage
-      changeLogCompareToRelease: 'lastFullRelease'
-      changeLogType: 'commitBased'
-      gitHubConnection: 'github.com_davegallant'
-      repositoryName: 'davegallant/pocketcasts-electron'
-      tagSource: 'auto'
-      target: '$(Build.SourceVersion)'
-    displayName: 'Create GitHub release'
+  # - task: GitHubRelease@1
+  #   inputs:
+  #     action: 'create'
+  #     assets: |
+  #       ./dist/*.snap
+  #       ./dist/*.dmg
+  #       ./dist/*.exe
+  #       ./dist/*.AppImage
+  #     changeLogCompareToRelease: 'lastFullRelease'
+  #     changeLogType: 'commitBased'
+  #     gitHubConnection: 'github.com_davegallant'
+  #     repositoryName: 'davegallant/pocketcasts-electron'
+  #     tagSource: 'auto'
+  #     target: '$(Build.SourceVersion)'
+  #   displayName: 'Create GitHub release'
     # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')
