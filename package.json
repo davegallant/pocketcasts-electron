@@ -16,7 +16,7 @@
     "electron-store": "^5.0.0",
     "electron-window-state": "^5.0.2",
     "rimraf": "^3.0.0",
-    "tslint": "^5.12.1",
+    "tslint": "^6.0.0",
     "typescript": "^3.2.4"
   },
   "devDependencies": {
