@@ -6,6 +6,9 @@
     ],
     "mac": {
       "category": "sound.pocketcasts"
+    },
+    "linux": {
+      "target": "deb"
     }
   },
   "dependencies": {
@@ -44,6 +47,10 @@
     "postinstall": "electron-builder install-app-deps",
     "start": "tsc && electron ./dist/main.js",
     "watch": "tsc -w"
+  },
+  "author": {
+    "name": "Dave Gallant",
+    "email": "davegallant@gmail.com"
   },
   "version": "0.3.0"
 }
