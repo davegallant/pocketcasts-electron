@@ -1,7 +1,6 @@
 # PocketCasts Beta Electron (Unofficial)
 
 [![Build Status](https://travis-ci.org/davegallant/pocketcasts-electron.svg?branch=master)](https://travis-ci.org/davegallant/pocketcasts-electron)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/davegallant/pocketcasts-electron.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davegallant/pocketcasts-electron/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/davegallant/pocketcasts-electron.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davegallant/pocketcasts-electron/context:javascript)
 
 
@@ -14,11 +13,14 @@ Media keys are mapped.
 
 ## How to build (Windows, Mac and Linux)
 
-```bash
-npm install
-sudo apt install libdbus-1-dev libglib2.0-dev # debian / ubuntu
-npm run package
-npm run start
+```console
+$ npm i
+$ npm run start
 ```
 
-Built packages/installers located in dist/
+On linux, for key bindings, dbus is required.
+
+### Ubuntu / debian:
+```console
+$ sudo apt install libdbus-1-dev libglib2.0-dev
+```
