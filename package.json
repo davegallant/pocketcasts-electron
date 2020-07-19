@@ -9,7 +9,6 @@
     }
   },
   "dependencies": {
-    "@types/electron-store": "^3.2.0",
     "@types/node": "^12.7.12",
     "copyfiles": "^2.1.0",
     "electron-log": "^4.0.0",
@@ -37,11 +36,11 @@
   },
   "scripts": {
     "assets": "copyfiles assets/** ./dist",
-    "build": "npm run assets && electron-builder --publish=never",
+    "build": "tsc && npm run assets && electron-builder --publish=never",
     "ci": "npm run compile && tsc && npm run lint && npm run build",
     "compile": "rimraf app/out",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "package": "tsc && npm run build",
+    "package": "npm run build",
     "postinstall": "electron-builder install-app-deps",
     "start": "tsc && electron ./dist/main.js",
     "watch": "tsc -w"
