@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "@types/node": "^12.7.12",
+    "@types/node": "^14.0.23",
     "copyfiles": "^2.1.0",
     "electron-log": "^4.0.0",
     "electron-store": "^5.0.0",
