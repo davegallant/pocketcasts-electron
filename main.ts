@@ -30,7 +30,7 @@ if (!gotTheLock) {
 
 // Add icons and context menus to the system"s notification area.
 function createTray() {
-  const iconPath: string = path.join(__dirname, "assets/icon.png");
+  const iconPath: string = path.join(__dirname, "assets/tray.png");
   const trayIcon = nativeImage.createFromPath(iconPath);
   tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
