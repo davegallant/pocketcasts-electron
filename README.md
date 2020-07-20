@@ -1,4 +1,4 @@
-# PocketCasts Beta Electron (Unofficial)
+# PocketCasts Electron (Unofficial)
 
 [![Build Status](https://travis-ci.org/davegallant/pocketcasts-electron.svg?branch=master)](https://travis-ci.org/davegallant/pocketcasts-electron)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/davegallant/pocketcasts-electron.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/davegallant/pocketcasts-electron/context:javascript)
@@ -12,16 +12,18 @@ Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in a
 
 Media keys are mapped.
 
-## How to build (Windows, Mac and Linux)
+## Releases
+
+Check out the latest [releases](https://github.com/davegallant/pocketcasts-electron/releases). 
+
+MacOS apps are not code signed.
+
+## Running from source
 
 ```console
 $ npm i
 $ npm run start
 ```
 
-On linux, for key bindings, dbus is required.
+On linux, `dbus` is required for keybindings.
 
-### Ubuntu / debian:
-```console
-$ sudo apt install libdbus-1-dev libglib2.0-dev
-```
