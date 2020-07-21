@@ -14,7 +14,7 @@ Media keys are mapped.
 
 ## Releases
 
-Check out the latest [releases](https://github.com/davegallant/pocketcasts-electron/releases). 
+Check out the latest [releases](https://github.com/davegallant/pocketcasts-electron/releases).
 
 MacOS apps are not code signed.
 
@@ -26,4 +26,3 @@ $ npm run start
 ```
 
 On linux, `dbus` is required for keybindings.
-
