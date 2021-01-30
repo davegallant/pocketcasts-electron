@@ -43,11 +43,11 @@
   },
   "scripts": {
     "assets": "copyfiles assets/** ./dist",
-    "build": "tsc && npm run assets && electron-builder --publish=never",
-    "ci": "npm run compile && tsc && npm run lint && npm run build",
+    "build": "tsc && yarn run assets && electron-builder --publish=never",
+    "ci": "yarn run compile && tsc && yarn run lint && yarn run build",
     "compile": "rimraf app/out",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "package": "npm run build",
+    "package": "yarn run build",
     "postinstall": "electron-builder install-app-deps",
     "start": "tsc && electron ./dist/main.js",
     "watch": "tsc -w"

@@ -21,8 +21,8 @@ MacOS apps are not code signed.
 ## Running from source
 
 ```console
-$ npm i
-$ npm run start
+$ yarn install
+$ yarn run start
 ```
 
 On linux, `dbus` is required for keybindings.
