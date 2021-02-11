@@ -23,7 +23,7 @@
     "electron-window-state": "^5.0.2",
     "rimraf": "^3.0.0",
     "tslint": "^6.0.0",
-    "typescript": "^4.0.2"
+    "typescript": "^4.1.5"
   },
   "devDependencies": {
     "electron": "^11.2.3",
