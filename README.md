@@ -4,7 +4,7 @@
 [![Dependabot](https://badgen.net/badge/Dependabot/enabled/green?icon=dependabot)](https://dependabot.com/)
 
 
-![pocketcasts_electron](https://user-images.githubusercontent.com/4519234/87889863-b6ddf900-ca01-11ea-95bb-703aa11f33b7.png)
+![pocketcasts](https://user-images.githubusercontent.com/4519234/114802965-9a8ea300-9d6c-11eb-8d7d-5ef56969fcd5.png)
 
 
 
