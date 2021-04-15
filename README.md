@@ -4,7 +4,8 @@
 [![Dependabot](https://badgen.net/badge/Dependabot/enabled/green?icon=dependabot)](https://dependabot.com/)
 
 
-![pocketcasts](https://user-images.githubusercontent.com/4519234/114802837-5d2a1580-9d6c-11eb-90db-d48316786957.png)
+![pocketcasts](https://user-images.githubusercontent.com/4519234/114802965-9a8ea300-9d6c-11eb-8d7d-5ef56969fcd5.png)
+
 
 
 Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in an [electron](https://electronjs.org/) package.
