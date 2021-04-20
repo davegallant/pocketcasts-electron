@@ -19,7 +19,7 @@
     "@types/node": "^12.7.12",
     "copyfiles": "^2.1.0",
     "electron-log": "^4.3.4",
-    "electron-store": "^7.0.3",
+    "electron-store": "^8.0.0",
     "electron-window-state": "^5.0.2",
     "rimraf": "^3.0.0",
     "tslint": "^6.0.0",
