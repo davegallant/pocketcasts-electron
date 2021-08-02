@@ -53,5 +53,5 @@
     "start": "tsc && electron ./dist/main.js",
     "watch": "tsc -w"
   },
-  "version": "0.3.1"
+  "version": "0.3.2"
 }
