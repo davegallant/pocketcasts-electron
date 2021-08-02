@@ -12,7 +12,8 @@
       "target": "deb"
     },
     "mac": {
-      "category": "sound.pocketcasts"
+      "category": "sound.pocketcasts",
+      "icon": "./dist/assets/icon.icns"
     }
   },
   "dependencies": {
