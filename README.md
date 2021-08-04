@@ -16,7 +16,7 @@ Media keys are mapped.
 
 Check out the latest [releases](https://github.com/davegallant/pocketcasts-electron/releases).
 
-MacOS apps are not code signed.
+Windows and macOS apps are not currently signed.
 
 ## Running from source
 
@@ -25,4 +25,4 @@ $ yarn install
 $ yarn run start
 ```
 
-On linux, `dbus` is required for keybindings.
+On linux, [dbus](https://www.freedesktop.org/wiki/Software/dbus/) is required for keybindings.

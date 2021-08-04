@@ -11,12 +11,12 @@
     "linux": {
       "target": "deb"
     },
-    "windows": {
-      "icon": "./dist/assets/icon.png"
-    },
     "mac": {
       "category": "sound.pocketcasts",
       "icon": "./dist/assets/icon.icns"
+    },
+    "win": {
+      "icon": "./dist/assets/icon.png"
     }
   },
   "dependencies": {
