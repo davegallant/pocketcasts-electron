@@ -39,7 +39,12 @@ fi
 
 atexit()
 {
-  exec "$BIN" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"
+  if [ $XDG_SESSION_TYPE == "wayland" ]
+  then
+    exec "$BIN" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"
+  else
+    exec "$BIN"
+  fi
 }
 
 error()
