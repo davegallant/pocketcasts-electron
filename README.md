@@ -1,6 +1,6 @@
 # PocketCasts Electron (Unofficial)
 
-[![Build Status](https://travis-ci.org/davegallant/pocketcasts-electron.svg?branch=master)](https://travis-ci.org/davegallant/pocketcasts-electron)
+[![Build/release](https://github.com/davegallant/pocketcasts-electron/actions/workflows/build.yml/badge.svg)](https://github.com/davegallant/pocketcasts-electron/actions/workflows/build.yml)
 [![Dependabot](https://badgen.net/badge/Dependabot/enabled/green?icon=dependabot)](https://dependabot.com/)
 
 
