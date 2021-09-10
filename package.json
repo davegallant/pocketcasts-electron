@@ -5,11 +5,14 @@
   },
   "build": {
     "appId": "com.pocketcasts.app",
+    "extraFiles": [
+      "AppRun"
+    ],
     "files": [
       "./dist/**"
     ],
     "linux": {
-      "target": "deb"
+      "target": "AppImage"
     },
     "mac": {
       "category": "sound.pocketcasts",
