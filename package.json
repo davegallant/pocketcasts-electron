@@ -23,14 +23,14 @@
     }
   },
   "dependencies": {
-    "@types/node": "^16.7.13",
+    "@types/node": "^16.9.0",
     "copyfiles": "^2.1.0",
     "electron-log": "^4.4.1",
     "electron-store": "^8.0.0",
     "electron-window-state": "^5.0.2",
     "rimraf": "^3.0.0",
     "tslint": "^6.0.0",
-    "typescript": "^4.4.2"
+    "typescript": "^4.4.3"
   },
   "devDependencies": {
     "electron": "^14.0.0",
