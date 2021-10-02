@@ -35,6 +35,13 @@ function createTray() {
   tray = new Tray(trayIcon);
   const contextMenu = Menu.buildFromTemplate([
     {
+      label: "Open",
+      type: "normal",
+      click() {
+        win.show();
+      },
+    },
+    {
       label: "⏯️ Play/Pause",
       type: "normal",
       click() {
@@ -65,10 +72,6 @@ function createTray() {
   ]);
   tray.setToolTip("Pocket Casts");
   tray.setContextMenu(contextMenu);
-
-  tray.on("click", () => {
-    win.isVisible() ? win.hide() : win.show();
-  });
 }
 
 function createWindow() {
