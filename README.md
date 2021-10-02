@@ -9,7 +9,7 @@
 
 Wraps the [Pocket Casts Web Player](https://play.pocketcasts.com/) web page in an [electron](https://electronjs.org/) package.
 
-Media keys are mapped.
+Media keys are mapped so that playback can be paused, skipped, and rewound without the application being in focus.
 
 ## Releases
 
@@ -24,4 +24,4 @@ $ yarn install
 $ yarn run start
 ```
 
-On linux, [dbus](https://www.freedesktop.org/wiki/Software/dbus/) is required for keybindings.
+On Linux, [dbus](https://www.freedesktop.org/wiki/Software/dbus/) is required for the media keybindings to work.
