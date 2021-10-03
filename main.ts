@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, nativeImage, Tray } from "electron";
+import { app, dialog, BrowserWindow, Menu, nativeImage, Tray } from "electron";
 import log = require("electron-log");
 import windowStateKeeper = require("electron-window-state");
 import path = require("path");
@@ -9,7 +9,7 @@ import { registerKeys } from "./mediaKeys";
 
 // Keep a global reference of the window object, if you don"t, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let win: BrowserWindow = null;
+let mainWindow: BrowserWindow = null;
 let tray: Tray = null;
 
 const gotTheLock = app.requestSingleInstanceLock();
@@ -19,11 +19,11 @@ if (!gotTheLock) {
 } else {
   app.on("second-instance", () => {
     // Someone tried to run a second instance, we should focus our window.
-    if (win) {
-      if (win.isMinimized()) {
-        win.restore();
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
       }
-      win.focus();
+      mainWindow.focus();
     }
   });
 }
@@ -38,28 +38,28 @@ function createTray() {
       label: "Open",
       type: "normal",
       click() {
-        win.show();
+        mainWindow.show();
       },
     },
     {
       label: "⏯️ Play/Pause",
       type: "normal",
       click() {
-        win.webContents.send("playPause");
+        mainWindow.webContents.send("playPause");
       },
     },
     {
       label: "⏭️ Skip 30s",
       type: "normal",
       click() {
-        win.webContents.send("skipForward");
+        mainWindow.webContents.send("skipForward");
       },
     },
     {
       label: "⏮️ Rewind 15s",
       type: "normal",
       click() {
-        win.webContents.send("skipBack");
+        mainWindow.webContents.send("skipBack");
       },
     },
     {
@@ -83,7 +83,7 @@ function createWindow() {
   });
 
   // Create the browser window.
-  win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     alwaysOnTop: config.get("alwaysOnTop"),
     autoHideMenuBar: true,
     height: mainWindowState.height,
@@ -104,24 +104,46 @@ function createWindow() {
   // Let us register listeners on the window, so we can update the state
   // automatically (the listeners will be removed when the window is closed)
   // and restore the maximized or full screen state
-  mainWindowState.manage(win);
+  mainWindowState.manage(mainWindow);
 
-  win.loadURL(betaUrl);
+  mainWindow.loadURL(betaUrl);
+
+  mainWindow.webContents.on('did-fail-load', (event, exitCode, reason) => {
+    dialog.showMessageBox(
+      mainWindow,
+      {
+        type: 'error',
+        buttons: ['Retry', 'Exit'],
+        defaultId: 0,
+        cancelId: 1,
+        title: 'Failed to load',
+        message: 'Pocket Casts failed to load: ' + reason,
+      },
+      )
+     .then(result => {
+        if (result.response === 0) {
+          mainWindow.loadURL(betaUrl);
+        } else if (result.response === 1) {
+          app.quit()
+        }
+      }
+    );
+  });
 
   try {
-    win.on("focus", () => {
-      registerKeys(win, process.platform);
+    mainWindow.on("focus", () => {
+      registerKeys(mainWindow, process.platform);
     });
   } catch (err) {
     log.error(err);
   }
 
   // Emitted when the window is closed.
-  win.on("closed", () => {
+  mainWindow.on("closed", () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    win = null;
+    mainWindow = null;
   });
 }
 
@@ -144,7 +166,7 @@ app.on("window-all-closed", () => {
 app.on("activate", () => {
   // On macOS it"s common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (win === null) {
+  if (mainWindow === null) {
     createWindow();
   }
 });
