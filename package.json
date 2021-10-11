@@ -42,7 +42,7 @@
   "main": "./dist/main.js",
   "name": "pocketcasts-electron",
   "optionalDependencies": {
-    "dbus-next": "^0.10.1"
+    "dbus-next": "^0.10.2"
   },
   "repository": {
     "type": "git",
