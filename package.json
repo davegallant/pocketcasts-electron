@@ -23,7 +23,7 @@
     }
   },
   "dependencies": {
-    "@types/node": "^16.11.10",
+    "@types/node": "^16.11.11",
     "copyfiles": "^2.1.0",
     "electron-log": "^4.4.1",
     "electron-store": "^8.0.1",
