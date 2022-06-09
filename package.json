@@ -33,7 +33,7 @@
     "typescript": "^4.7.3"
   },
   "devDependencies": {
-    "electron": "^19.0.3",
+    "electron": "^19.0.4",
     "electron-builder": "^23.0.3",
     "electron-debug": "^3.1.0",
     "electron-rebuild": "^3.2.7"
